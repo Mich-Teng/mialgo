@@ -22,7 +22,7 @@ public class InsertionSort extends SortingAlgorithm {
             flag = false;
             index = arr[i];
             for( int j = i-1; j >=0 ; j--){
-                flag = (mode == Sort.DESCENDING)?index>arr[j]:index<arr[j];
+                flag = (mode == Sort.ASCENDING)?index>arr[j]:index<arr[j];
                 // the comparason should not continue
                 if( flag == true ){
                     arr[j+1] = index;
@@ -47,7 +47,7 @@ public class InsertionSort extends SortingAlgorithm {
             flag = false;
             index = arr[i];
             for( int j = i-1; j >=0 ; j--){
-                flag = (mode == Sort.DESCENDING)?index.compareTo(arr[j])>0:index.compareTo(arr[j])<0;
+                flag = (mode == Sort.ASCENDING)?index.compareTo(arr[j])>0:index.compareTo(arr[j])<0;
                 // the comparason should not continue
                 if( flag == true ){
                     arr[j+1] = index;
