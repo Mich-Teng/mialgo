@@ -12,10 +12,6 @@ package com.mialgo.sort;
 
 
 public class QuickSort extends SortingAlgorithm {
-    @Override
-    public void sort(int[] arr, short mode){
-
-    }
 
     @Override
     public void sort(Comparable<? extends Object>[] arr,short mode){

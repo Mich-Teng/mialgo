@@ -42,6 +42,47 @@ public class Heap<T> {
     public Heap(){}
 
     /**
+     * modify the specific key according to the parameters
+     * can merely increase key of max-heap or decrease key of min-heap
+     * @param index the index of element
+     * @param key the object of key
+     */
+    public void modifyKey(int index,T key){
+        if( (isMax == true)?((Comparable)arr[index]).compareTo(key)>0:((Comparable)arr[index]).compareTo(key)<0 ){
+            System.out.println("the value of key does not fit the requirement");
+            return;
+        }
+        arr[index] = key;
+        int i = index;
+        // ret > 0 means arr[PARENT] > arr[i]
+        int ret = ((Comparable)arr[PARENT(i)]).compareTo(arr[i]);
+        while( i>0 && (isMax == true)?ret < 0: ret > 0 ){
+            // exchange arr[PARENT(i)] and arr[i]
+            T tmp = arr[i];
+            arr[i] = arr[PARENT(i)];
+            arr[PARENT(i)] = tmp;
+            // increase the index and continue cycling
+            i = PARENT(i);
+            ret = ((Comparable)arr[PARENT(i)]).compareTo(arr[i]);
+        }
+    }
+
+    public void insert(T key){
+        arr[heapSize++] = key;
+        // ret > 0 means arr[PARENT] > arr[i]
+        int i = heapSize-1;
+        int ret = ((Comparable)arr[PARENT(i)]).compareTo(arr[i]);
+        while( i>0 && (isMax == true)?ret < 0: ret > 0 ){
+            // exchange arr[PARENT(i)] and arr[i]
+            T tmp = arr[i];
+            arr[i] = arr[PARENT(i)];
+            arr[PARENT(i)] = tmp;
+            // increase the index and continue cycling
+            i = PARENT(i);
+            ret = ((Comparable)arr[PARENT(i)]).compareTo(arr[i]);
+        }
+    }
+    /**
      * create heap
      */
     void build(){
@@ -53,15 +94,23 @@ public class Heap<T> {
      * get the top element in the heap
      */
     public T getTop(){
+        if( heapSize == 0 ){
+            System.out.println("Heap is empty");
+            return null;
+        }
         return arr[0];
     }
 
     /**
      * pop the top element and rebuild the heap
      * @return
+     * @exception HeapUnderFlowException: heap underflow
      */
-    public T pop(){
+    public T pop() throws HeapUnderflowException{
         // exchange the value of the first and the last element
+        if( heapSize == 0 ){
+            throw new HeapUnderflowException();
+        }
         T temp = arr[0];
         arr[0] = arr[heapSize-1];
         arr[heapSize-1] = temp;

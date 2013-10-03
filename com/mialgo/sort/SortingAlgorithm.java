@@ -22,11 +22,20 @@ abstract class SortingAlgorithm {
      * @param arr source array
      * @param mode ascending or descending mode
      */
-    abstract void sort(int[] arr,short mode);
+    public void sort(int[] arr, short mode){
+        int length = arr.length;
+        Integer[] tmp = new Integer[length];
+        for( int i = 0; i < length; i++)
+            tmp[i] = Integer.valueOf(arr[i]);
+        sort(tmp,mode);
+        for(int i = 0; i < length ; i++)
+            arr[i] = tmp[i];
+    }
 
     abstract void sort(Comparable<? extends Object>[] arr,short mode);
 
     // check whether the array fits our requirement
+    // all the type in the container must be the same type
     protected boolean checkValid(Object[] arr){
         // if the array is empty
         if( arr.length == 0 )

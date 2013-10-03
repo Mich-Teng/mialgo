@@ -11,21 +11,16 @@ package com.mialgo.sort;
  */
 
 import com.mialgo.util.Heap;
+import com.mialgo.util.HeapUnderflowException;
 import com.mialgo.util.NonComparableException;
-import com.sun.deploy.util.ArrayUtil;
+
 
 public class HeapSort extends SortingAlgorithm {
-    @Override
-    public void sort(int[] arr, short mode){
-        int length = arr.length;
-        Integer[] tmp = new Integer[length];
-        for( int i = 0; i < length; i++)
-            tmp[i] = Integer.valueOf(arr[i]);
-        sort(tmp,mode);
-        for(int i = 0; i < length ; i++)
-            arr[i] = tmp[i];
-    }
-
+    /**
+     * Using heap to implement heap sort (Object)
+     * @param arr source array
+     * @param mode sorting mode: ASCENDING OR DESCENDING
+     */
     @Override
     public void sort(Comparable<? extends Object>[] arr,short mode){
         Heap t;
@@ -39,7 +34,8 @@ public class HeapSort extends SortingAlgorithm {
         }catch(NonComparableException e){
             System.err.println("The type is not comparable");
         }
+        catch (HeapUnderflowException e){
+            System.err.println("Heap is empty. You can't pop a thing");
+        }
     }
-
-
 }
