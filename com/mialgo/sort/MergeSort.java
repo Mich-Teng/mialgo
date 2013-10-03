@@ -12,16 +12,17 @@ package com.mialgo.sort;
 public class MergeSort extends SortingAlgorithm {
     @Override
     public void sort(Comparable<? extends Object>[] arr, short mode){
+        this.mode = mode;
         if( checkValid( arr ) == false )
             return ;
         int pivot = (arr.length-1)/2;
-        merge(arr,0,pivot,arr.length-1,mode);
+        merge(arr,0,pivot,arr.length-1);
     }
     // call merge recursively to sort the sub arrays and merge them
     // ** further optimization:
     //  use insertion sort to finish the sort of sub arrays whose elements are less than N
     //  This will improve the performance of the algorithm
-    void merge(Comparable<? extends  Object>[] arr, int left, int pivot, int right, short mode){
+    void merge(Comparable<? extends  Object>[] arr, int left, int pivot, int right){
         // index of leftside
         int l = left;
         // index of rightside
@@ -32,10 +33,10 @@ public class MergeSort extends SortingAlgorithm {
         if( left == right )
             return ;
         if( !(left == pivot ) ){
-            merge(arr,left,(left+pivot)/2,pivot,mode);
+            merge(arr,left,(left+pivot)/2,pivot);
         }
         if( !(right == pivot) )
-            merge(arr,pivot+1,(pivot+right)/2,right,mode);
+            merge(arr,pivot+1,(pivot+right)/2,right);
         Comparable[] tmp = new Comparable[right-left+1];
         while( count <= right - left + 1 ){
             // l or r across the boundary

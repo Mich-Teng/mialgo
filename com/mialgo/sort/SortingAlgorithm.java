@@ -15,8 +15,8 @@ package com.mialgo.sort;
  *  The new added algorithm should implement following interface
  */
 abstract class SortingAlgorithm {
-
-
+    Comparable[] arr;
+    short mode = Sort.ASCENDING;
     /**
      * the interface accepts 2 parameters
      * @param arr source array
@@ -49,9 +49,15 @@ abstract class SortingAlgorithm {
             }
         }
         // verify Object whehter implements Comparable
-
         return true;
     }
-
+    /**
+     * exchange the value of ith and jth element
+     */
+    void exchange(int i, int j){
+        Comparable tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
 
 }
