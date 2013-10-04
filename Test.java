@@ -23,7 +23,7 @@ public class Test {
         System.out.println("before sort");
         for( int value : arr_int )
             System.out.print(value+",");
-        Sort.process(arr_int,new MergeSort(),Sort.ASCENDING);
+        Sort.process(arr_int,new QuickSort(),Sort.ASCENDING);
         System.out.println("after sort");
         for ( int value: arr_int)
             System.out.print(value+",");
@@ -35,7 +35,8 @@ public class Test {
         System.out.println("before sort");
         for( Integer value : arr_obj )
             System.out.print(value+",");
-        Sort.process(arr_obj,new MergeSort(),Sort.DESCENDING);
+        System.out.println("");
+        Sort.process(arr_obj,new QuickSort(),Sort.DESCENDING);
         System.out.println("after sort");
         for ( Integer value: arr_obj)
            System.out.print(value+",");

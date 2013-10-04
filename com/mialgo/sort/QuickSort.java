@@ -10,9 +10,12 @@ package com.mialgo.sort;
  * ******************************************************************
  */
 
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class QuickSort extends SortingAlgorithm {
-
+    // when to start using Insertion Sort instead of Quick Sort
+    final int BOUNDARY = 50;
     /**
      * implementation of quick sort
      * pivot selection strategy : select median from three numbers
@@ -34,12 +37,30 @@ public class QuickSort extends SortingAlgorithm {
      * @param right right side of the array
      */
     void qsort(int left, int right){
+        int length = right - left + 1;
+        Comparable tmp;
+        int j;
+        if( length < BOUNDARY ){
+            // perform insertion sort here
+            for( int i = 1 ; i < length; i++ ){
+                tmp = arr[i];
+                for (j = i-1; j >=0; j-- ){
+                    if( (mode == Sort.ASCENDING)?tmp.compareTo(arr[j])<0 : tmp.compareTo(arr[j])>0 )
+                        exchange(j,j+1);
+                    else
+                        break;
+                }
+                arr[j+1] = tmp;
+            }
+            return ;
+        }
         // select pivot and exchange the corresponding position
         selectPivot(left,right);
         // divide the array into 3 groups,arr[right] and arr[left] have already put into right position,pivot = arr[right - 1]
+
         int[] ret = partition(left+1,right - 1);
         qsort(left,ret[0]);
-        qsort(ret[1], right);
+        qsort(ret[0]+2, right);
     }
 
     /**
@@ -83,25 +104,37 @@ public class QuickSort extends SortingAlgorithm {
         int ret[] = new int[2];
         int[] equals = new int[right-left+1];
         int count = 0;
+        Queue<Integer> queue = new LinkedList<Integer>();
         for( int i = left; i < right ; i++ ){
             // if needing change the position
             if( (mode == Sort.ASCENDING)?pivot.compareTo(arr[i])> 0:pivot.compareTo(arr[i])< 0 ){
                 lpos ++;
                 // change the value of arr[lpos] and arr[i]
                 exchange(lpos,i);
-                if( equals[epos] == lpos ){
-                    equals[epos] = i;
-                    epos = (epos == equals.length)?0:epos+1;
+                // use queue to verify the current minimum index
+                if(count > 0){
+                    epos = queue.peek().intValue();
+                    if( equals[epos] == lpos ){
+                        equals[epos] = i;
+                        queue.remove();
+                        queue.add(new Integer(epos));
+                     }
                 }
             }
             else if( pivot.compareTo(arr[i]) == 0 ){
                 // record the index of equal element
                 equals[count++] = i ;
+                queue.offer(new Integer(count-1));
             }
         }
         lpos++;
         // exchange the value of pivot and arr[lpos]
         exchange(lpos,right);
+
+        // put the elements equal to pivot just after the pivot
+        for( int i = 0; i < count; i++ ){
+            exchange(lpos+i+1,equals[i]);
+        }
 
         // get the return value
         ret[0] = lpos-1;
