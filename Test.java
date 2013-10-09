@@ -12,9 +12,10 @@ import java.util.*;
 import java.lang.Integer;
 
 public class Test {
-    final private static int TEST_SCALE = 10000;
+    final private static int TEST_SCALE = 10;
     final private static int MAX = 100;
-    public static void main(String[] args){
+
+    void test(){
         Random rand = new Random(TEST_SCALE);
         int[] arr_int = new int[TEST_SCALE];
         // test for primitives
@@ -23,7 +24,7 @@ public class Test {
         System.out.println("before sort");
         for( int value : arr_int )
             System.out.print(value+",");
-        Sort.process(arr_int,new QuickSort(),Sort.ASCENDING);
+        Sort.process(arr_int,new QuickSort(),Sort.DESCENDING);
         System.out.println("after sort");
         for ( int value: arr_int)
             System.out.print(value+",");
@@ -39,8 +40,22 @@ public class Test {
         Sort.process(arr_obj,new QuickSort(),Sort.DESCENDING);
         System.out.println("after sort");
         for ( Integer value: arr_obj)
-           System.out.print(value+",");
-
-
+            System.out.print(value+",");
+    }
+    public static void main(String[] args){
+        // test();
+        Random rand = new Random(TEST_SCALE);
+        double[] arr_int = new double[TEST_SCALE];
+        // test for primitives
+        for(int i= 0 ; i < TEST_SCALE ; i++)
+            arr_int[i] = rand.nextDouble();
+        System.out.println("before sort");
+        for( double value : arr_int )
+            System.out.print(value+",");
+        System.out.println("");
+        new BucketSort().sort(arr_int,Sort.DESCENDING);
+        System.out.println("after sort");
+        for ( double value: arr_int)
+            System.out.print(value+",");
     }
 }
