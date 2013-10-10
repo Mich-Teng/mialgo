@@ -1,4 +1,4 @@
-package com.mialgo.util;
+package com.mialgo.selection;
 
 /**
  * ******************************************************************
@@ -11,5 +11,5 @@ package com.mialgo.util;
  */
 
 
-public class NonComparableException extends Exception {
+public class IndexExceedBoundException extends Exception {
 }

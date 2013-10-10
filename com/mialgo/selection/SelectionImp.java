@@ -1,42 +1,109 @@
-package com.mialgo.sort;
+package com.mialgo.selection;
+
+import com.mialgo.sort.Sort;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * ******************************************************************
  * Author: Chao Teng
- * Time: 2013-09-25 11:18
+ * Time: 2013-10-10 11:50
  * License: GNU/GPL
  * 
  * Welcome to contact MichZc.Teng@gmail.com if any problems are found
  * ******************************************************************
  */
 
-import java.util.Queue;
-import java.util.LinkedList;
 
-public class QuickSort extends SortingAlgorithm {
-    // when to start using Insertion Sort instead of Quick Sort
-    final int BOUNDARY = 50;
+public class SelectionImp {
+    final int BOUNDARY = 10;
+    Comparable[] arr = null;
+    short mode;
     /**
-     * implementation of quick sort
-     * pivot selection strategy : select median from three numbers
-     * optimization : each partition divides the array into three sub arrays: smaller,equal and larger,
-     * which will improve the performance when the arrays have many same elements
+     * select maximum element from object array which implements Comparable
      * @param arr source array
-     * @param mode sorting mode: ASCENDING OR DESCENDING
+     * @return maximum element
+     * @throws EmptyArrayException
      */
-    @Override
-    public void sort(Comparable<? extends Object>[] arr,short mode){
-        this.arr = arr;
-        this.mode = mode;
-        qsort(0,arr.length-1);
+    public Comparable getMax(Comparable[] arr) throws EmptyArrayException{
+        int length = arr.length;
+        if( length == 0 ){
+            throw new EmptyArrayException();
+        }
+        Comparable max = arr[0];
+        for( int i = 1; i < length; i++ ){
+            if( max.compareTo( arr[i] ) < 0 )
+                max = arr[i];
+        }
+        return max;
+    }
+    /**
+     * get the maximum element in the array
+     * @param arr source array
+     * @return maximum element
+     */
+    public double getMax(double[] arr) throws EmptyArrayException{
+        int length = arr.length;
+        if( length == 0 ){
+            throw new EmptyArrayException();
+        }
+        double max = arr[0];
+        for( int i = 1; i < length; i++ ){
+            if( max < arr[i] )
+                max = arr[i];
+        }
+        return max;
+    }
+
+    public Comparable getMin(Comparable[] arr) throws EmptyArrayException{
+        int length = arr.length;
+        if( length == 0 ){
+            throw new EmptyArrayException();
+        }
+        Comparable min = arr[0];
+        for( int i = 1; i < length; i++ ){
+            if( min.compareTo(arr[i]) > 0 )
+                min = arr[i];
+        }
+        return min;
     }
 
     /**
-     * main processing function
-     * @param left left side of the array
-     * @param right right side of the array
+     * get the minimum element in the array
+     * @param arr source array
+     * @return return minimum element
      */
-    void qsort(int left, int right){
+    public double getMin(double[] arr) throws EmptyArrayException{
+        int length = arr.length;
+        if( length == 0 ){
+            throw new EmptyArrayException();
+        }
+        double min = arr[0];
+        for( int i = 1; i < length; i++ ){
+            if( min > arr[i] )
+                min = arr[i];
+        }
+        return min;
+    }
+
+    /**
+     * get the ith element of the array
+     * @param index index of element
+     * @param mode whether the ith largest element or the ith smallest mode
+     * @return value of number
+     */
+    public Comparable select(Comparable[] arr,int index, short mode) throws IndexExceedBoundException{
+        if( index >= arr.length )
+            throw new IndexExceedBoundException();
+        this.arr = arr;
+        this.mode = mode;
+        return randomSelect(0,arr.length-1,index);
+    }
+
+    Comparable randomSelect(int left,int right,int index){
+        if( left == right )
+            return arr[left];
         int length = right - left + 1;
         Comparable tmp;
         int j;
@@ -52,15 +119,16 @@ public class QuickSort extends SortingAlgorithm {
                 }
                 arr[j+1] = tmp;
             }
-            return ;
+            return arr[index];
         }
-        // select pivot and exchange the corresponding position
         selectPivot(left,right);
-        // divide the array into 3 groups,arr[right] and arr[left] have already put into right position,pivot = arr[right - 1]
-
         int[] ret = partition(left+1,right - 1);
-        qsort(left,ret[0]);
-        qsort(ret[1], right);
+        if( index > ret[0] && index < ret[1] )
+            return arr[index];
+        if(index <= ret[0])
+            return randomSelect(left,ret[0],index);
+        else
+            return randomSelect(ret[1],right,index);
     }
 
     /**
@@ -118,7 +186,7 @@ public class QuickSort extends SortingAlgorithm {
                         equals[epos] = i;
                         queue.remove();
                         queue.add(new Integer(epos));
-                     }
+                    }
                 }
             }
             else if( pivot.compareTo(arr[i]) == 0 ){
@@ -140,5 +208,10 @@ public class QuickSort extends SortingAlgorithm {
         ret[0] = lpos-1;
         ret[1] =lpos+1 + count;
         return ret;
+    }
+    void exchange(int i, int j){
+        Comparable tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 }

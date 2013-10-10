@@ -7,6 +7,8 @@
  * Welcome to contact MichZc.Teng@gmail.com if any problems are found
  * ******************************************************************
  */
+import com.mialgo.selection.IndexExceedBoundException;
+import com.mialgo.selection.Selection;
 import com.mialgo.sort.*;
 import java.util.*;
 import java.lang.Integer;
@@ -15,7 +17,7 @@ public class Test {
     final private static int TEST_SCALE = 10;
     final private static int MAX = 100;
 
-    void test(){
+    static void test(){
         Random rand = new Random(TEST_SCALE);
         int[] arr_int = new int[TEST_SCALE];
         // test for primitives
@@ -43,7 +45,7 @@ public class Test {
             System.out.print(value+",");
     }
     public static void main(String[] args){
-        // test();
+       //  test();
         Random rand = new Random(TEST_SCALE);
         double[] arr_int = new double[TEST_SCALE];
         // test for primitives
@@ -53,8 +55,15 @@ public class Test {
         for( double value : arr_int )
             System.out.print(value+",");
         System.out.println("");
-        new BucketSort().sort(arr_int,Sort.DESCENDING);
+        try{
+            double d = Selection.select(arr_int,2,Sort.DESCENDING);
+            System.out.println("select " + d);
+        }catch(Exception e){
+            System.out.println("Index out of bounds");
+        }
+
         System.out.println("after sort");
+        new BucketSort().sort(arr_int,Sort.ASCENDING);
         for ( double value: arr_int)
             System.out.print(value+",");
     }

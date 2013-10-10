@@ -1,5 +1,10 @@
 package com.mialgo.selection;
 
+import com.mialgo.sort.Sort;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * ******************************************************************
  * Author: Chao Teng
@@ -13,38 +18,68 @@ package com.mialgo.selection;
 
 public class Selection {
     /**
-     * get the maximum element in the array
+     * Object version of getMax
      * @param arr source array
      * @return maximum element
+     * @throws EmptyArrayException
      */
-    public static double getMax(double[] arr) throws EmptyArrayException{
-        int length = arr.length;
-        if( length == 0 ){
-            throw new EmptyArrayException();
-        }
-        double max = arr[0];
-        for( int i = 1; i < length; i++ ){
-            if( max < arr[i] )
-                max = arr[i];
-        }
-        return max;
+    public static Comparable getMax(Comparable[] arr) throws EmptyArrayException{
+        return new SelectionImp().getMax(arr);
     }
 
     /**
+     * primitive double version of getMax
+     * @param arr source array
+     * @return maximum element
+     * @throws EmptyArrayException
+     */
+    public static double getMax(double[] arr)throws EmptyArrayException{
+        Double[] tmp = new Double[arr.length];
+        for( int i = 0; i < arr.length; i++)
+            tmp[i] = arr[i];
+        return (Double)new SelectionImp().getMax(tmp);
+    }
+    /**
      * get the minimum element in the array
      * @param arr source array
-     * @return return minimum element
+     * @return minimum element
      */
-    public static double getMin(double[] arr) throws EmptyArrayException{
-        int length = arr.length;
-        if( length == 0 ){
-            throw new EmptyArrayException();
-        }
-        double min = arr[0];
-        for( int i = 1; i < length; i++ ){
-            if( min > arr[i] )
-                min = arr[i];
-        }
-        return min;
+    public static Comparable getMin(Comparable[] arr) throws EmptyArrayException{
+        return new SelectionImp().getMin(arr);
+    }
+
+    /**
+     * primitive double version of getMax
+     * @param arr source array
+     * @return maximum element
+     * @throws EmptyArrayException
+     */
+    public static double getMin(double[] arr)throws EmptyArrayException{
+        Double[] tmp = new Double[arr.length];
+        for( int i = 0; i < arr.length; i++)
+            tmp[i] = arr[i];
+        return (Double)new SelectionImp().getMin(tmp);
+    }
+
+    /**
+     * get the ith element in the array
+      * @param arr source array
+     * @param index index of number
+     * @param mode largest or smallest
+     * @return value of element
+     */
+    public static Comparable select(Comparable[] arr,int index,short mode) throws IndexExceedBoundException,IndexUnderflowException{
+        if( index <= 0 )
+            throw new IndexUnderflowException();
+        return new SelectionImp().select(arr,index-1,mode);
+    }
+
+    public static double select(double[] arr,int index,short mode) throws IndexExceedBoundException,IndexUnderflowException{
+        if( index <= 0 )
+            throw new IndexUnderflowException();
+        Double[] tmp = new Double[arr.length];
+        for( int i = 0; i < arr.length; i++)
+            tmp[i] = arr[i];
+        return (Double)new SelectionImp().select(tmp,index-1,mode);
     }
 }
